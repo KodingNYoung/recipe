@@ -1,41 +1,34 @@
-import React, { useEffect, useRef } from "react";
-import { Animated, StyleSheet, View } from "react-native";
+import React from "react";
+import { Animated, StyleSheet, View, useWindowDimensions } from "react-native";
 
 import colors from "../../../assets/theme/colors";
 
 export default function Indicator(props) {
-  const { active } = props;
+  const { scrollX, idx } = props;
+
   // hooks
-  const widthAnim = useRef(new Animated.Value(10)).current;
-  
-  const bgInterpolation = widthAnim.interpolate({
-    inputRange: [10,24],
-    outputRange: [colors.gray[50], colors.primary.main]
-  })
-  
-  useEffect(() => {
-    if (active) {
-      Animated.timing(widthAnim, {
-        toValue: 24,
-        duration: 500,
-        useNativeDriver: false
-      }).start();
-    } else {
-      Animated.timing(widthAnim, {
-        toValue: 10,
-        duration: 500,
-        useNativeDriver: false
-      }).start();
-    }
-  }, [active]);
+  const { width } = useWindowDimensions();
+
+  const inputRange = [(idx - 1) * width, idx * width, (idx + 1) * width];
+  const indicatorWidth = scrollX.interpolate({
+    inputRange,
+    outputRange: [10, 24, 10],
+    extrapolate: "clamp"
+  });
+  const bg = scrollX.interpolate({
+    inputRange,
+    outputRange: [colors.gray[100], colors.primary.main, colors.gray[100]],
+    extrapolate: "clamp"
+    
+  });
 
   return (
     <Animated.View
       style={[
         styles.indicator,
         {
-          backgroundColor: bgInterpolation,
-          width: widthAnim
+          backgroundColor: bg,
+          width: indicatorWidth
         }
       ]}
     ></Animated.View>

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
 import React from "react";
 
 import AppText from "../../../components/AppText";
@@ -8,14 +8,13 @@ import colors from "../../../assets/theme/colors";
 
 export default function Slide(props) {
   const { message } = props;
+  const { width } = useWindowDimensions();
   return (
-    <View style={styles.slide}>
-      <Image source={message.src} style={styles.image} />
+    <View style={[styles.slide, { width }]}>
+      <Image source={message.src} style={[styles.image, { width }]} />
       <View style={styles.textContent}>
         <AppText style={styles.subtitle}>{message?.subtitle}</AppText>
-        <AppText style={styles.desc}>
-          {message?.description}
-        </AppText>
+        <AppText style={styles.desc}>{message?.description}</AppText>
       </View>
     </View>
   );
@@ -23,18 +22,17 @@ export default function Slide(props) {
 
 const styles = StyleSheet.create({
   slide: {
-    height: "85%"
+    flex: 1,
   },
   image: {
     minWidth: "100%",
-    resizeMode: "cover",
-    height: "65%"
+    flex: 0.7
   },
   textContent: {
     paddingVertical: 40,
     paddingHorizontal: 20,
-    height: "35%",
-    justifyContent: "center"
+    flex: 0.3,
+    justifyContent: "center",
   },
   subtitle: {
     color: colors.gray[400],
