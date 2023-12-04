@@ -16,7 +16,8 @@ export default function App() {
     "inter-bold": require("./app/assets/fonts/Inter-Bold.otf"),
     "inter-medium": require("./app/assets/fonts/Inter-Medium.otf"),
     "inter-regular": require("./app/assets/fonts/Inter-Regular.otf"),
-    "inter-light": require("./app/assets/fonts/Inter-Light.otf")
+    "inter-light": require("./app/assets/fonts/Inter-Light.otf"),
+    "inter-semibold": require("./app/assets/fonts/Inter-SemiBold.otf")
   });
 
   useEffect(() => {
